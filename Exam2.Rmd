@@ -1,0 +1,153 @@
+---
+title: "Exam Two"
+author: "Herrington"
+date: "6/26/2020"
+output: pdf_document
+---
+
+#Loading the dataset into a dataframe
+
+#1 and 2
+```{r}
+library(rio)
+library(dplyr)
+library(doBy)
+library(devtools)
+library(remotes)
+library(remote)
+library(WDI)
+library(data.table)
+library(countrycode)
+library(tidyverse)
+
+inequality_data <- import("inequality.xlsx")
+attach(inequality_data)
+```
+
+#3
+The data is cross sectional, it is all from 2015.
+What follows are pulled years, all 2015
+```{r}
+print(year)
+```
+
+#4
+Gini scores for Sweden and Denmark
+```{r}
+ginisub <- subset(inequality_data, select = c("inequality_gini"))
+sweGini <-filter(ginisub,country=="Sweden")
+denmGini <-filter(ginisub,country=="Denmark")
+#printing
+
+print(paste("Sweden:",sweGini,"and Denmark:",denmGini))
+```
+
+#5
+Brazil Inequality Gini Score
+```{r}
+brazGini <- filter(ginisub,country=="Brazil")
+print(paste("Brazil:",brazGini))
+```
+
+#6
+It seems to be better to have a generally lower gini score
+
+#7
+```{r}
+head(inequality_data)
+```
+
+#8
+```{r}
+
+accent.remove <- function(n)
+{
+  inequality_data$country[inequality_data$country=="Belarús"] = "Belarus"
+}
+accent.remove()
+
+
+```
+
+
+#9
+sort
+```{r}
+inequality_data = inequality_data[order(inequality_data$inequality_gini),]
+head(inequality_data)
+```
+
+#10
+Mean gini score
+```{r}
+mean(inequality_gini,na.rm = TRUE)
+```
+The mean iniequality gini score is 36.81375
+
+#11
+```{r}
+ifelse(test = inequality_data$inequality_gini > mean(inequality_gini,na.rm = TRUE),
+       yes = high_inequality <- 0, no = low_inequality <- 1)
+```
+
+#12
+Cross Tabulation
+```{r}
+#summaryBy(high_inequality ~ low_inequality, data=inequality_data, FUN=c(mean,length))
+```
+
+#13
+```{r}
+orgs <- c('World Bank', 'African Development Bank', 'Bill and Melinda Gates Foundation')
+for (i in orgs){
+  print(i)
+}
+```
+
+#14
+I picked income share held by the lowest 20%. I feel that this is a good indicator
+because the lower that income share is the higher inequality would likely be as
+wealth would be accumulating above that 20%.
+
+#15
+```{r}
+WDI_D = WDI(country = "all",
+indicator = c("SI.DST.FRST.20"), start = 2015, end = 2015, extra = FALSE, cache = NULL)
+```
+
+#16
+Rename the variable
+```{r}
+setnames(WDI_D,"SI.DST.FRST.20", "Income Share Lowest 20%")
+```
+
+#17
+```{r}
+#assign country codes and filter
+WDI_D$country_code = countrycode(sourcevar = WDI_D$iso2c,
+origin = "iso2c", destination = "iso3c", warn = TRUE)
+WDI_D <- WDI_D %>% dplyr::filter(!(country_code=="NA"))
+
+WDI_D <-
+WDI_D %>% dplyr::filter(!(country_code=="NA"))
+
+#merging
+#merged_df = left_join(x=inequality_data, y=WDI_D, by =c("country_code", "year"))
+```
+
+#18
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
