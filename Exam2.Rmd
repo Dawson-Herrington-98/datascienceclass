@@ -143,6 +143,13 @@ WDI_D %>% dplyr::filter(!(country_code=="NA"))
 
 ```
 
+#23 Stata data set
+I did not make it here as I encountered some issues. I am still doing this part to
+prove that I understand how to export
+```{r}
+export(inequality_data, file = "clean_dataset.dta")
+```
+
 
 
 
