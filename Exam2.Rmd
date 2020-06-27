@@ -7,6 +7,9 @@ output: pdf_document
 
 #Loading the dataset into a dataframe
 
+#*Repo Link*
+[Repo Link](https://github.com/Dawson-Herrington-98/datascienceclass)
+
 #1 and 2
 ```{r}
 library(rio)
